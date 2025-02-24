@@ -44,22 +44,29 @@ export class UserUseCase {
       throw new Error(`Failed to update profile: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
-   // Reset password using OTP verification
-   static async resetPassword(email: string, otp: string, newPassword: string) {
+  static async requestPasswordReset(email: string) {
     try {
-      const result = await UserService.resetPassword(email, otp, newPassword);
-      return { message: result.message };
+      const result = await UserService.generateResetOtp(email);
+      return { message: result.message, userId: result.userId };
     } catch (error) {
-      throw new Error(`Failed to reset password: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        error instanceof Error
+          ? error.message
+          : "Failed to request password reset: Unknown error"
+      );
     }
   }
-// Request OTP for password reset
-static async requestPasswordReset(email: string) {
+
+  static async resetPassword(userId: number, otp: string, newPassword: string) {
     try {
-      const result = await UserService.requestPasswordReset(email);
+      const result = await UserService.resetPassword(userId, otp, newPassword);
       return { message: result.message };
     } catch (error) {
-      throw new Error(`Failed to request password reset: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      // Pass through the specific error message from UserService without wrapping it unnecessarily
+      throw new Error(
+        error instanceof Error ? error.message : "Failed to reset password: Unknown error"
+      );
     }
   }
+  
 }

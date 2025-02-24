@@ -16,7 +16,7 @@
     "@hono/node-server": "^1.13.8",
     "@hono/zod-validator": "^0.4.3",
     "@neondatabase/serverless": "^0.10.4",
-    "@supabase/supabase-js": "^2.48.1",
+    "@supabase/supabase-js": "^2.49.1",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.13.1",
@@ -27,6 +27,7 @@
     "formidable": "^3.5.2",
     "hono": "^4.7.0",
     "postgres": "^3.4.5",
+    "resend": "^4.1.2",
     "supabase": "^2.12.1",
     "twilio": "^5.4.4",
     "zod": "^3.24.2"

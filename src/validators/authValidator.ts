@@ -39,6 +39,7 @@ export const signupSchema = z.object({
     nom: z.string().min(2),
     prenom: z.string().min(2),
     telephone: z.string().regex(/^\d+$/, "Numéro invalide").min(8).max(15),
+    image: z.string().optional(),
     role: z.enum(["utilisateur", "pharmacien"]),
   }),
   adresse: adresseSchema.optional(),
@@ -49,4 +50,15 @@ export const signupSchema = z.object({
 export const signInSchema = z.object({
   email: z.string().email().min(1),
   password: passwordSchema,
+});
+// Schema for password reset request
+export const resetRequestSchema = z.object({
+  email: z.string().email(),
+});
+
+// Schema for password reset verification
+export const resetVerifySchema = z.object({
+  userId: z.number(),
+  otp: z.string().length(6),
+  newPassword: passwordSchema,
 });

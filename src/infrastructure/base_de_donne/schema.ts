@@ -1,8 +1,9 @@
-import { pgTable, serial, varchar, bigint, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, varchar, bigint, boolean, timestamp,integer } from "drizzle-orm/pg-core";
 
 // Table Utilisateur
 export const utilisateur = pgTable("utilisateur", {
   id: serial("id").primaryKey(),
+  supabase_user_id: varchar("supabase_user_id", { length: 255 }).unique(), 
   nom: varchar("nom", { length: 255 }).notNull(),
   prenom: varchar("prenom", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).unique().notNull(),
@@ -62,6 +63,7 @@ export const otpCodes = pgTable("otp_codes", {
   utilisateur_id: bigint("utilisateur_id", { mode: "number" })
     .references(() => utilisateur.id, { onDelete: "cascade" }) // Cascade delete if user is deleted
     .notNull(),
+  attempts: integer("attempts").default(0), // New column
   otp: varchar("otp", { length: 6 }).notNull(), // 6-digit OTP
   created_at: timestamp("created_at").defaultNow(), // OTP creation time
   expires_at: timestamp("expires_at").notNull(), // Expiry time (set in code)
