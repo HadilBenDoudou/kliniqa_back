@@ -1,4 +1,3 @@
-// src/usecases/LoginUserUseCase.ts
 import { UserService } from "../../infrastructure/services/userService"; // Use the service layer
 
 export class LoginUserUseCase {

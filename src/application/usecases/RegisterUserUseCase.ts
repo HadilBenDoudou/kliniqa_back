@@ -1,4 +1,3 @@
-// src/usecases/RegisterUserUseCase.ts
 import { UserService } from "../../infrastructure/services/userService"; // Use the service layer
 import { adresseSchema, pharmacienSchema, pharmacieValidator } from "../../validators/authValidator";
 

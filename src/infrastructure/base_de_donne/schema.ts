@@ -55,3 +55,15 @@ export const pharmacie = pgTable("pharmacie", {
     .references(() => pharmacien.utilisateur_id)
     .notNull(),
 });
+
+// OTP Codes Table
+export const otpCodes = pgTable("otp_codes", {
+  id: serial("id").primaryKey(),
+  utilisateur_id: bigint("utilisateur_id", { mode: "number" })
+    .references(() => utilisateur.id, { onDelete: "cascade" }) // Cascade delete if user is deleted
+    .notNull(),
+  otp: varchar("otp", { length: 6 }).notNull(), // 6-digit OTP
+  created_at: timestamp("created_at").defaultNow(), // OTP creation time
+  expires_at: timestamp("expires_at").notNull(), // Expiry time (set in code)
+});
+
