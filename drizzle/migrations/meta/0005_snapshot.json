@@ -1,0 +1,694 @@
+{
+  "id": "9993ea42-5a97-40dd-894c-3d270bd903fe",
+  "prevId": "ffb71406-28fa-47c2-9300-e1c1d4053e74",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.adresse": {
+      "name": "adresse",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "num_street": {
+          "name": "num_street",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "street": {
+          "name": "street",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "city": {
+          "name": "city",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "postal_code": {
+          "name": "postal_code",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "country": {
+          "name": "country",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "adresse_utilisateur_id_utilisateur_id_fk": {
+          "name": "adresse_utilisateur_id_utilisateur_id_fk",
+          "tableFrom": "adresse",
+          "tableTo": "utilisateur",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "adresse_utilisateur_id_unique": {
+          "name": "adresse_utilisateur_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "utilisateur_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.categorie": {
+      "name": "categorie",
+      "schema": "",
+      "columns": {
+        "id_categorie": {
+          "name": "id_categorie",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nom": {
+          "name": "nom",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "categorie_utilisateur_id_pharmacien_utilisateur_id_fk": {
+          "name": "categorie_utilisateur_id_pharmacien_utilisateur_id_fk",
+          "tableFrom": "categorie",
+          "tableTo": "pharmacien",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "utilisateur_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.detail_produit": {
+      "name": "detail_produit",
+      "schema": "",
+      "columns": {
+        "id_detail": {
+          "name": "id_detail",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_produit": {
+          "name": "id_produit",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_categorie": {
+          "name": "id_categorie",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "categorie_specific_attributes": {
+          "name": "categorie_specific_attributes",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "detail_produit_id_produit_produit_id_fk": {
+          "name": "detail_produit_id_produit_produit_id_fk",
+          "tableFrom": "detail_produit",
+          "tableTo": "produit",
+          "columnsFrom": [
+            "id_produit"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "detail_produit_id_categorie_categorie_id_categorie_fk": {
+          "name": "detail_produit_id_categorie_categorie_id_categorie_fk",
+          "tableFrom": "detail_produit",
+          "tableTo": "categorie",
+          "columnsFrom": [
+            "id_categorie"
+          ],
+          "columnsTo": [
+            "id_categorie"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "detail_produit_utilisateur_id_pharmacien_utilisateur_id_fk": {
+          "name": "detail_produit_utilisateur_id_pharmacien_utilisateur_id_fk",
+          "tableFrom": "detail_produit",
+          "tableTo": "pharmacien",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "utilisateur_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.otp_codes": {
+      "name": "otp_codes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "attempts": {
+          "name": "attempts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "otp": {
+          "name": "otp",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "otp_codes_utilisateur_id_utilisateur_id_fk": {
+          "name": "otp_codes_utilisateur_id_utilisateur_id_fk",
+          "tableFrom": "otp_codes",
+          "tableTo": "utilisateur",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.pharmacie": {
+      "name": "pharmacie",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nom": {
+          "name": "nom",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "docPermis": {
+          "name": "docPermis",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "docAutorisation": {
+          "name": "docAutorisation",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "adresse_id": {
+          "name": "adresse_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pharmacien_id": {
+          "name": "pharmacien_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "pharmacie_adresse_id_adresse_id_fk": {
+          "name": "pharmacie_adresse_id_adresse_id_fk",
+          "tableFrom": "pharmacie",
+          "tableTo": "adresse",
+          "columnsFrom": [
+            "adresse_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "pharmacie_pharmacien_id_pharmacien_utilisateur_id_fk": {
+          "name": "pharmacie_pharmacien_id_pharmacien_utilisateur_id_fk",
+          "tableFrom": "pharmacie",
+          "tableTo": "pharmacien",
+          "columnsFrom": [
+            "pharmacien_id"
+          ],
+          "columnsTo": [
+            "utilisateur_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.pharmacien": {
+      "name": "pharmacien",
+      "schema": "",
+      "columns": {
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "cartePro": {
+          "name": "cartePro",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "diplome": {
+          "name": "diplome",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "assurancePro": {
+          "name": "assurancePro",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "etat": {
+          "name": "etat",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "pharmacien_utilisateur_id_utilisateur_id_fk": {
+          "name": "pharmacien_utilisateur_id_utilisateur_id_fk",
+          "tableFrom": "pharmacien",
+          "tableTo": "utilisateur",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.produit": {
+      "name": "produit",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nom": {
+          "name": "nom",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ref": {
+          "name": "ref",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "desc": {
+          "name": "desc",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "stock": {
+          "name": "stock",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prix": {
+          "name": "prix",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_categorie": {
+          "name": "id_categorie",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "produit_id_categorie_categorie_id_categorie_fk": {
+          "name": "produit_id_categorie_categorie_id_categorie_fk",
+          "tableFrom": "produit",
+          "tableTo": "categorie",
+          "columnsFrom": [
+            "id_categorie"
+          ],
+          "columnsTo": [
+            "id_categorie"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "produit_utilisateur_id_pharmacien_utilisateur_id_fk": {
+          "name": "produit_utilisateur_id_pharmacien_utilisateur_id_fk",
+          "tableFrom": "produit",
+          "tableTo": "pharmacien",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "utilisateur_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sub_categorie": {
+      "name": "sub_categorie",
+      "schema": "",
+      "columns": {
+        "id_sub_categorie": {
+          "name": "id_sub_categorie",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nom": {
+          "name": "nom",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "utilisateur_id": {
+          "name": "utilisateur_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sub_categorie_parent_id_categorie_id_categorie_fk": {
+          "name": "sub_categorie_parent_id_categorie_id_categorie_fk",
+          "tableFrom": "sub_categorie",
+          "tableTo": "categorie",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id_categorie"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "sub_categorie_utilisateur_id_pharmacien_utilisateur_id_fk": {
+          "name": "sub_categorie_utilisateur_id_pharmacien_utilisateur_id_fk",
+          "tableFrom": "sub_categorie",
+          "tableTo": "pharmacien",
+          "columnsFrom": [
+            "utilisateur_id"
+          ],
+          "columnsTo": [
+            "utilisateur_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.utilisateur": {
+      "name": "utilisateur",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "supabase_user_id": {
+          "name": "supabase_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nom": {
+          "name": "nom",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "prenom": {
+          "name": "prenom",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telephone": {
+          "name": "telephone",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image": {
+          "name": "image",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "role": {
+          "name": "role",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "utilisateur_supabase_user_id_unique": {
+          "name": "utilisateur_supabase_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "supabase_user_id"
+          ]
+        },
+        "utilisateur_email_unique": {
+          "name": "utilisateur_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

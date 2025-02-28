@@ -194,7 +194,7 @@ export class UserService {
       });
 
       const { error } = await resend.emails.send({
-        from: "onboarding@resend.dev", // Replace with your verified sender if not in test mode
+        from: "onboarding@resend.dev", 
         to: email,
         subject: "Password Reset OTP",
         html: `<p>Your OTP is <strong>${otp}</strong>. It expires in 10 minutes.</p>`,
@@ -270,5 +270,33 @@ export class UserService {
         error instanceof Error ? error.message : "Failed to reset password: Unknown error"
       );
     }
+    
    }
+   static async deleteAccount(userId: number) {
+    try {
+      // Fetch the user to get the supabase_user_id
+      const user = await db.query.utilisateur.findFirst({
+        where: eq(utilisateur.id, userId),
+      });
+      if (!user) throw new Error("User not found.");
+
+      // Delete related data from your tables
+      // Note: otpCodes will cascade delete due to onDelete: "cascade"
+      await db.delete(pharmacie).where(eq(pharmacie.pharmacien_id, userId));
+      await db.delete(pharmacien).where(eq(pharmacien.utilisateur_id, userId));
+      await db.delete(adresse).where(eq(adresse.utilisateur_id, userId));
+      await db.delete(utilisateur).where(eq(utilisateur.id, userId));
+
+      // Delete the user from Supabase Auth
+      if (user.supabase_user_id) {
+        const { error } = await supabase.auth.admin.deleteUser(user.supabase_user_id);
+        if (error) throw new Error(`Supabase Auth deletion failed: ${error.message}`);
+      }
+
+      return { message: "Account deleted successfully." };
+    } catch (error) {
+      throw new Error(`Failed to delete account: ${error instanceof Error ? error.message : "Unknown error"}`);
+    }
+  }
+   
 }

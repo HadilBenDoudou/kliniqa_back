@@ -24,20 +24,9 @@ userRouter.post("/login", zValidator("json", signInSchema), async (c) => {
   return c.json({ success: true, data: result }, 200);
 });
 
-userRouter.post("/reset-password/request", zValidator("json", resetRequestSchema), async (c) => {
-  const { email } = await c.req.valid("json");
-  const result = await UserUseCase.requestPasswordReset(email);
-  return c.json({ success: true, data: result }, 200);
-});
-
-userRouter.post("/reset-password/verify", zValidator("json", resetVerifySchema), async (c) => {
-  const { userId, otp, newPassword } = await c.req.valid("json");
-  const result = await UserUseCase.resetPassword(userId, otp, newPassword);
-  return c.json({ success: true, data: result }, 200);
-});
 
 // Protected routes (authMiddleware + optional validation)
-userRouter.get("/users", authMiddleware, async (c) => {
+userRouter.get("/users",  async (c) => {
   const result = await UserUseCase.getAllUsers();
   return c.json({ success: true, data: result }, 200);
 });
@@ -66,15 +55,22 @@ userRouter.put("/users/edit/:id",zValidator("json",signupSchema), async (c) => {
   }
 });
 
+userRouter.delete("/users/delete/:id", async (c) => { 
+  const userId = Number(c.req.param("id"));
+  
+  const result = await UserUseCase.deleteAccount(userId);
+  return c.json({ success: true, data: result }, 200);
+})
+
 
 // reset passwpord request
 
-userRouter.post("/reset-password/request", zValidator("json", resetRequestSchema), async (c) => {
+
+ userRouter.post("/reset-password/request", zValidator("json", resetRequestSchema), async (c) => {
   const { email } = await c.req.valid("json");
   const result = await UserUseCase.requestPasswordReset(email);
   return c.json({ success: true, data: result }, 200);
 });
-
 userRouter.post("/reset-password/verify", zValidator("json", resetVerifySchema), async (c) =>
 {
   try {
@@ -87,4 +83,7 @@ userRouter.post("/reset-password/verify", zValidator("json", resetVerifySchema),
       400
     );
  } });
+
+
+
 export default userRouter;

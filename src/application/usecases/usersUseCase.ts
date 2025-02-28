@@ -67,6 +67,14 @@ export class UserUseCase {
         error instanceof Error ? error.message : "Failed to reset password: Unknown error"
       );
     }
-  }
-  
+}
+  static async deleteAccount(userId: number) {
+    try {
+      const result = await UserService.deleteAccount(userId);
+      return { message: result.message };
+    } catch (error) {
+      throw new Error(
+        error instanceof Error ? error.message : "Failed to delete account: Unknown error"
+      );
+    }}
 }
